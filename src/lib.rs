@@ -10,6 +10,7 @@ mod utils;
 
 const KEY: [u8; 32] = [19, 55, 19, 55, 19, 55, 19, 55, 19, 55, 19, 55, 19, 55, 19, 55, 19, 55, 19, 55, 19, 55, 19, 55, 19, 55, 19, 55, 19, 55, 19, 55];
 
+// Use this for pawtectMe field on /load endpoint. For me the data was always "i" precisely.
 pub fn encrypt_token(data: &[u8]) -> Result<String, Box<dyn Error>> {
     let cipher = XChaCha20Poly1305::new_from_slice(&KEY)?;
     let nonce = XChaCha20Poly1305::generate_nonce().unwrap();
@@ -37,6 +38,7 @@ pub fn decrypt_token(token: String) -> Result<Vec<u8>, Box<dyn Error>> {
     Ok(plaintext)
 }
 
+// Used for X-Pawtect-Token
 pub fn sign(hosts: &[String], body: Vec<u8>) -> Result<String, Box<dyn Error>> {
     let mut plaintext = Vec::with_capacity(128);
 
