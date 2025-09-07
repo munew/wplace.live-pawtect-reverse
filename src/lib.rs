@@ -50,8 +50,8 @@ pub fn sign(hosts: &[String], body: Vec<u8>) -> Result<String, Box<dyn Error>> {
 
     plaintext.extend_from_slice(&[0, 0, hosts.len() as u8]);
     for host in hosts {
-        let hosts_len: u32 = host.len() as u32;
-        plaintext.extend(hosts_len.to_le_bytes());
+        let host_len: u32 = host.len() as u32;
+        plaintext.extend(host_len.to_le_bytes());
         plaintext.extend_from_slice(host.as_bytes());
     }
 
