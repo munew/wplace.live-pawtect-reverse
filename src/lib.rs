@@ -47,8 +47,10 @@ pub fn sign(hosts: &[String], body: Vec<u8>) -> Result<String, Box<dyn Error>> {
     plaintext.extend_from_slice(&[105, 19, 131, 172, 0]);
     // body sha256
     plaintext.extend_from_slice(sha256(body.as_slice())?.as_slice());
+    // unknown
+    plaintext.extend(&[0, 0]);
 
-    plaintext.extend_from_slice(&[0, 0, hosts.len() as u8]);
+    plaintext.extend((hosts.len() as u32).to_le_bytes());
     for host in hosts {
         let host_len: u32 = host.len() as u32;
         plaintext.extend(host_len.to_le_bytes());
